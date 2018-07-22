@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}{% endblock title %}</title>
+  <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+  {% block head %}{% endblock head %}
+</head>
+<body>
+  <div id="header">
+    <a id="site-name" href="/">Djample!</a> 
+    {% block header %}{% endblock header %}
+  </div>
+  
+  <div id="main">
+  {% block main %}{% endblock main %}
+  </div>
+  
+  <div id="footer">
+    <div class="footer-column">{% block footer %}{% endblock footer %}</div>
+    <a class="footer-column footer-link" target="_blank" href="http://note.crohaco.net/">Blog</a>
+    <a class="footer-column footer-link" target="_blank" href="https://twitter.com/crohaco">Twitter</a>
+    <a class="footer-column footer-link" target="_blank" href="https://github.com/righ/djample">Repository</a>
+  </div>
+  
+  <script src="{% static 'js/index.js' %}" ></script>
+  {% block scripts %}{% endblock scripts %}
+</body>
+</html>

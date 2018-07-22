@@ -1,0 +1,28 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: ubuntu:18.04
+        environment:
+          TOXENV: circleci
+          PG_HOST: localhost
+          PG_USER: postgres
+      - image: postgres:10
+        environment:
+          POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=C"
+    working_directory: /home/www/apps/
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - d2-apps-{{ .Branch }}
+      - run: ../venv/bin/pip install tox --find-links wheelhouse/
+      - run: ../venv/bin/tox -e circleci
+      - run: cd frontend/ && npm install
+      - run: cd frontend/ && npm test
+      - save_cache:
+          key: d2-apps-{{ .Branch }}
+          paths:
+            - ./frontend/node_modules/
+            - ../venv/
+          when: always

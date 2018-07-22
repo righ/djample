@@ -1,0 +1,17 @@
+.npm/
+.config/
+.tox
+.env
+app.pid
+node_modules/
+venv/
+__pycache__/
+*.pyc
+npm-debug.log
+
+db.sqlite3
+
+data/
+frontend/assets/
+.vscode/
+.swp

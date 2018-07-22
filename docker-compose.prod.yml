@@ -1,0 +1,21 @@
+# It is for building images.
+# You should do ``docker-compose -f docker-compose.prod.yml build``.
+# You can also do ``docker-compose -f docker-compose.prod.yml up``, but it is for confirmation. Build before!
+
+version: "3"
+services:
+  app:
+    image: djample-prod-app
+    build:
+      context: ./
+      dockerfile: deployment/app/Dockerfile
+      args:
+        requirements: requirements/requirements.txt
+
+  nginx:
+    image: djample-prod-nginx
+    build:
+      context: ./
+      dockerfile: deployment/nginx/Dockerfile
+      args:
+        webpack_config: webpack/webpack.prod.js

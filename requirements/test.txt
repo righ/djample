@@ -1,0 +1,8 @@
+# Libraries for running app here.
+pytest
+pytest-django
+pytest-cov
+
+factory_boy
+testfixtures
+coverage

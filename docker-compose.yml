@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  app:
+    image: "djample_base:latest"
+    build: ./
+    environment:
+      PYTHONDONTWRITEBYTECODE: 1
+      LANG: en_US.UTF-8
+      LC_ALL: C.UTF-8
+      DJANGO_SETTINGS_MODULE: settings.local
+    volumes:
+      - ./:/home/www/djample/
+    working_dir: /home/www/
+    command: >
+      bash -c "
+      hostname local-djample &&
+      python3.6 -m venv venv/ || true &&
+      venv/bin/pip install -r djample/requirements/requirements-dev.txt || true &&
+      venv/bin/python djample/apps/manage.py migrate || true &&
+      bash"
+    ports:
+      - "8000:8000"
+    links:
+      - postgres:db
+      - redis:cache
+    tty: true
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=C"
+    volumes:
+      - ./data/postgresql/:/var/lib/postgresql/data
+    expose:
+      - "5432"
+
+  redis:
+    image: redis:latest
+    volumes:
+      - ./data/redis/:/data/
+    expose:
+      - "6379"
+
+  webpack:
+    image: node:latest
+    volumes:
+      - ./frontend/:/root/frontend/
+    working_dir: /root/frontend/
+    command: |
+      bash -c "\
+        npm install &&\
+        ./node_modules/.bin/webpack --verbose --config=webpack/webpack.local.js --watch"

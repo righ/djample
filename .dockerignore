@@ -1,0 +1,11 @@
+jest_0/
+.tox/
+.cache/
+.circleci/
+.npm/
+
+^venv/
+^data/
+^media/
+^tests/
+^frontend/assets/*

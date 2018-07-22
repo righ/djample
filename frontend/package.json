@@ -1,0 +1,27 @@
+{
+  "name": "djample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/righ/djample"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.54",
+    "@babel/preset-env": "^7.0.0-beta.54",
+    "babel-loader": "^8.0.0-beta.4",
+    "css-loader": "^1.0.0",
+    "jest": "^23.4.1",
+    "style-loader": "^0.21.0",
+    "stylus-loader": "^3.0.2",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0"
+  },
+  "license": "ISC"
+}
