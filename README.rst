@@ -58,7 +58,7 @@ You are able to create images for production as follows:
 
 .. code-block:: shell
 
-  $ docker-compose -f docker-compose.prod.yml up --build
+  $ docker-compose -f docker-compose.prod.yml build --no-cache
 
 
 .. note::
@@ -73,5 +73,5 @@ You are able to create images for production as follows:
 
   you should make `djample_base` docker image before. The ways are as follows:
 
-  - ``docker build .``
-  - ``docker-compose build # or up``
+  - ``docker build . --no-cache``
+  - ``docker-compose build # or up --no-cache``
