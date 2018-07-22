@@ -63,7 +63,7 @@ You are able to create images for production as follows:
 
 .. note::
 
-  If you appear this error,
+  If the following error appears,
 
   ::
 
@@ -71,7 +71,7 @@ You are able to create images for production as follows:
     Step 1/13 : FROM djample_base:latest
     ERROR: Service 'app' failed to build: pull access denied for djample_base, repository does not exist or may require 'docker login'
 
-  you should make `djample_base` docker image before. The ways are as follows:
+  you should make `djample_base` docker image before, the ways are as follows:
 
   - ``docker build . --no-cache``
   - ``docker-compose build # or up --no-cache``

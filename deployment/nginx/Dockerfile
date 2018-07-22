@@ -12,7 +12,6 @@ WORKDIR /home/www
 ADD apps/ apps/
 ADD requirements/ requirements/
 ADD static/ static/
-ADD ChangeLog.rst ChangeLog.rst
 RUN set -x &&\
   venv/bin/pip install -r ${requirements} &&\
   venv/bin/python apps/manage.py collectstatic --noinput --settings=settings.base

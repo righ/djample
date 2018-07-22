@@ -7,7 +7,6 @@ USER www
 ADD apps/ apps/
 ADD templates/ templates/
 ADD static/ static/
-ADD ChangeLog.rst ChangeLog.rst
 ADD requirements/ requirements/
 
 RUN set -x &&\
