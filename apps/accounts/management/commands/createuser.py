@@ -51,7 +51,7 @@ class Command(BaseCommand):
             first_name=options['first_name'],
             last_name=options['last_name'],
             is_superuser=options['is_superuser'],
-            is_staff=options['is_staff'],
+            is_staff=options['is_staff'] or options['is_superuser'],
             is_active=options['is_active'],
         )
         # if password is not specified, then username is used.
