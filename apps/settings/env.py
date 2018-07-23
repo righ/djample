@@ -76,5 +76,8 @@ CACHES = {
     },
 }
 
+# Media file
+MEDIA_URL = os.environ.get('DJANGO_MEDIA_URL', MEDIA_URL)
+
 # MISC
 TIMESTAMP_FORMAT = os.environ.get('TIMESTAMP_FORMAT', TIMESTAMP_FORMAT)
