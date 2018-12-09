@@ -1,4 +1,4 @@
-FROM djample_base:latest
+FROM djample-base:latest
 ARG requirements="requirements/requirements.txt"
 ARG preprocess="echo start processing"
 ARG project="djample"

@@ -6,7 +6,7 @@ RUN set -x  &&\
   npm install &&\
   $(npm bin)/webpack --config ${webpack_config}
 
-FROM djample_base AS app
+FROM djample-base AS app
 ARG requirements="requirements/requirements.txt"
 WORKDIR /home/www
 ADD apps/ apps/
