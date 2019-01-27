@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     # my applications
     'accounts',
+    'tasks',
     'share',
 ]
 
