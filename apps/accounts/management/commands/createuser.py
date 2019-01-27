@@ -2,7 +2,8 @@ import logging
 
 from django.db import transaction
 from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User
+
+from accounts.models import User
 
 logger = logging.getLogger(__name__)
 
@@ -10,24 +11,16 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
-            '--username',
+            '--email',
             required=True,
+        )
+        parser.add_argument(
+            '--name',
+            required=False,
         )
         parser.add_argument(
             '--password',
             default=None,
-        )
-        parser.add_argument(
-            '--email',
-            default='',
-        )
-        parser.add_argument(
-            '--first-name',
-            default='',
-        )
-        parser.add_argument(
-            '--last-name',
-            default='',
         )
         parser.add_argument(
             '--is-superuser',
