@@ -23,6 +23,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
 
     path('api/accounts/', include('accounts.urls')),
+    path('api/tasks/', include('tasks.urls')),
 
     path('api/auth/', include('djoser.urls')),
     path('api/auth/', include('djoser.urls.authtoken')),
