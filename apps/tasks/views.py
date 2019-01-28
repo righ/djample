@@ -1,5 +1,8 @@
+from datetime import timedelta
 
 from django.shortcuts import render
+from django.utils import timezone
+
 from rest_framework import mixins
 from rest_framework.decorators import api_view, action
 from rest_framework.views import APIView
@@ -65,6 +68,16 @@ class TaskViewSet(viewsets.ModelViewSet):
             for t in task.times.all()
         ]
         return Response(ts)
+
+    @action(methods=['get'], detail=True)
+    def seconds(self, request, pk=None):
+        task = self.get_object()
+        total = sum([
+            (t.end or timezone.now()) - t.start
+            for t in task.times.all()
+        ], timedelta())
+        return Response(total.total_seconds())
+
 
 
 class TimeRecordView(generics.CreateAPIView):
