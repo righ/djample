@@ -4,10 +4,11 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter()
-router.register('status', views.StatusViewSet)
-router.register('tag', views.TagViewSet)
-router.register('task', views.TaskViewSet)
+router.register('statuses', views.StatusViewSet)
+router.register('tags', views.TagViewSet)
+router.register('tasks', views.TaskViewSet)
 
 urlpatterns = [
+    path('record/', views.TimeRecordView.as_view()),
     path('', include(router.urls)),
 ]

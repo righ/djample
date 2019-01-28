@@ -9,7 +9,7 @@ from django.utils import timezone
 class Status(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     name = models.CharField(max_length=10)
-    description = models.TextField()
+    description = models.TextField(default='', blank=True)
 
 
 class Tag(models.Model):
@@ -37,7 +37,7 @@ class Task(models.Model):
 
 class Time(models.Model):
     id = models.BigAutoField(primary_key=True)
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='times')
     note = models.TextField(default='')
     start = models.DateTimeField()
     end = models.DateTimeField(null=True)

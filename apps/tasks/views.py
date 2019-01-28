@@ -56,3 +56,17 @@ class TaskViewSet(viewsets.ModelViewSet):
             return TaskSerializer
         else:
             return TaskListSerializer
+
+    @action(methods=['get'], detail=True)
+    def times(self, request, pk=None):
+        task = self.get_object()
+        ts = [
+            TimeSerializer(t).data
+            for t in task.times.all()
+        ]
+        return Response(ts)
+
+
+class TimeRecordView(generics.CreateAPIView):
+    queryset = Time.objects.all()
+    serializer_class = TimeSerializer

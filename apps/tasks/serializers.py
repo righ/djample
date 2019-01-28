@@ -38,18 +38,8 @@ class TagSerializer(serializers.ModelSerializer):
 class TaskListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ('id', 'status', 'content')
+        fields = ('id', 'status', 'content', 'owner')
         extra_kwargs = {}
-
-
-class TaskSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Task
-        fields = ('id', 'status', 'content', 'tags', 'created_at', 'updated_at')
-        extra_kwargs = {
-            'created_at': {'write_only': True},
-            'updated_at': {'write_only': True},
-        }
 
 
 class TimeSerializer(serializers.ModelSerializer):
@@ -57,3 +47,15 @@ class TimeSerializer(serializers.ModelSerializer):
         model = Time
         fields = ('id', 'task', 'note', 'start', 'end')
         extra_kwargs = {}
+
+
+class TaskSerializer(serializers.ModelSerializer):
+    # times = TimeSerializer(many=True)
+    class Meta:
+        model = Task
+        fields = ('id', 'status', 'content', 'tags', 'created_at', 'updated_at')
+        extra_kwargs = {
+            'created_at': {'read_only': True},
+            'updated_at': {'read_only': True},
+            'times': {'write_only': True},
+        }

@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='time',
             name='task',
-            field=models.ForeignKey(default=django.utils.timezone.now, on_delete=django.db.models.deletion.CASCADE, to='tasks.Task'),
+            field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='tasks.Task'),
             preserve_default=False,
         ),
     ]
