@@ -18,14 +18,19 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 
-from .api_router import router
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
-    path('api/', include(router.urls)),
+
+    path('api/accounts/', include('accounts.urls')),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [path('__debug__/', include(('debug_toolbar.toolbar', 'djdt'), 'djdt'))]
+
+    from rest_framework.documentation import include_docs_urls
+
+    urlpatterns += [
+        path('docs/', include_docs_urls(title='My API title')),
+    ]

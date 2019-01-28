@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.utils import timezone
 
@@ -14,8 +16,8 @@ class Tag(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     name = models.CharField(max_length=30)
 
-    user = models.ForeignKey('accounts.User', null=True)
-    group = models.ForeignKey('accounts.Group', null=True)
+    user = models.ForeignKey('accounts.User', null=True, on_delete=models.CASCADE)
+    group = models.ForeignKey('accounts.Group', null=True, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
@@ -30,8 +32,8 @@ class Time(models.Model):
 
 class Task(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    owner = models.ForeignKey('accounts.User')
-    status = models.ForeignKey(Status)
+    owner = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    status = models.ForeignKey(Status, on_delete=models.CASCADE)
     content = models.TextField(default='')
 
     tags = models.ManyToManyField(Tag)

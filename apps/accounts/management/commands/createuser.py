@@ -1,6 +1,5 @@
 import logging
 
-from django.db import transaction
 from django.core.management.base import BaseCommand
 
 from accounts.models import User
@@ -39,16 +38,14 @@ class Command(BaseCommand):
 
     def handle(self, **options):
         user = User(
-            username=options['username'],
+            name=options['name'],
             email=options['email'],
-            first_name=options['first_name'],
-            last_name=options['last_name'],
             is_superuser=options['is_superuser'],
             is_staff=options['is_staff'] or options['is_superuser'],
             is_active=options['is_active'],
         )
         # if password is not specified, then username is used.
-        password = options['password'] or options['username']
+        password = options['password'] or 'default'
         user.set_password(password)
         user.save()
-        logger.info('User "%(username)s" was created successfully.', options)
+        logger.info('User "%(name)s" was created successfully.', options)
