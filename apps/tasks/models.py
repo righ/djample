@@ -23,13 +23,6 @@ class Tag(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Time(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    note = models.TextField(default='')
-    start = models.DateTimeField()
-    end = models.DateTimeField(null=True)
-
-
 class Task(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     owner = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
@@ -37,8 +30,14 @@ class Task(models.Model):
     content = models.TextField(default='')
 
     tags = models.ManyToManyField(Tag)
-    times = models.ManyToManyField(Time)
 
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+class Time(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    note = models.TextField(default='')
+    start = models.DateTimeField()
+    end = models.DateTimeField(null=True)

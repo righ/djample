@@ -23,12 +23,6 @@ class UserNameAPI(APIView):
         usernames = [user.name for user in User.objects.all()]
         return Response(usernames)
 
-    def post(self, request):
-        # 普通こんなことはしないが..
-        users = [User(username=name) for name in request.POST.getlist('name')]
-        User.objects.bulk_create(users)
-        return Response({'succeeded': True})
-
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
