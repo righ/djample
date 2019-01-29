@@ -12,6 +12,6 @@ npm-debug.log
 db.sqlite3
 
 data/
-
+frontend/assets/
 .vscode/
 .swp
