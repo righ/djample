@@ -43,6 +43,7 @@ class StatusViewSet(mixins.ListModelMixin,
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
+    permission_classes = (permissions.IsAuthenticated,)
     
     def get_serializer_class(self):
         if self.action == 'retrieve':
@@ -53,7 +54,8 @@ class TagViewSet(viewsets.ModelViewSet):
 
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
-    
+    permission_classes = (permissions.IsAuthenticated,)
+
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return TaskSerializer
@@ -81,5 +83,7 @@ class TaskViewSet(viewsets.ModelViewSet):
 
 
 class TimeRecordView(generics.CreateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
     queryset = Time.objects.all()
     serializer_class = TimeSerializer

@@ -196,3 +196,9 @@ DJOSER = {
         'user_create': 'accounts.serializers.UserSerializer',
     },
 }
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
