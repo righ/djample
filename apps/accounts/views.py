@@ -4,9 +4,11 @@ from rest_framework.decorators import api_view, action
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework import viewsets
+from rest_framework import pagination
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from rest_framework.authtoken.models import Token
+from rest_framework.parsers import JSONParser, MultiPartParser
 
 from .models import User, Group
 from .serializers import UserSerializer, GroupSerializer
@@ -50,6 +52,20 @@ class TokenView(APIView):
         return Response({'token': str(token)})
 
 
+class MyNumberPagination(pagination.PageNumberPagination):
+    page_size = 1
+
+
+class MyLOPagination(pagination.LimitOffsetPagination):
+    default_limit = 1
+    max_limit = 10
+
+
+class MyCursorPagination(pagination.CursorPagination):
+    ordering = ['email']
+    page_size = 1
+
+
 @api_view(['GET', 'POST'])
 def hello_world(request):
     if request.method == 'POST':
@@ -63,14 +79,32 @@ class UserNameAPI(APIView):
         return Response(usernames)
 
 
+from rest_framework import filters
+
+
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    #filter_backends = (filters.SearchFilter,)
+    filter_fields = ('name',)
+    search_fields = ('name', '^email')
+    ordering_fields = ('id', 'username')
+
+    #pagination_class = MyNumberPagination
+    #pagination_class = MyLOPagination
+    #pagination_class = MyCursorPagination
+
+
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    parser_classes = [
+        # JSONParser,
+        MultiPartParser,
+    ]
 
     @action(methods=['get'], detail=True)
     def gravatar(self, request, pk=None):

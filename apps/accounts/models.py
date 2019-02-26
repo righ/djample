@@ -14,6 +14,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     name = models.CharField(max_length=20, blank=True, default='')
     email = models.EmailField(unique=True)
+    file = models.FileField(null=True, upload_to='userfiles/')
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
