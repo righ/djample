@@ -10,10 +10,19 @@ from rest_framework import authentication, permissions
 from rest_framework.authtoken.models import Token
 from rest_framework.parsers import JSONParser, MultiPartParser
 
+from apps.parsers import YamlParser
 from .models import User, Group
 from .serializers import UserSerializer, GroupSerializer
 from .permissions import GroupMemberPermission
 #from .authentications import ExpirationTokenAuthentication
+
+
+class EchoView(APIView):
+    parser_classes = [YamlParser]
+
+    def post(self, request):
+        return Response(request.data)
+
 
 class CheckView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -122,3 +131,4 @@ class GroupViewSet(viewsets.ModelViewSet):
         group = self.get_object()
         serializer = UserSerializer(group.users.all(), many=True)
         return Response(serializer.data)
+
