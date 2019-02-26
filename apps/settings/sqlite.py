@@ -31,9 +31,9 @@ CACHES = {
     },
 }
 
-REST_FRAMEWORK = {
+REST_FRAMEWORK.update({
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     )
-}
+})

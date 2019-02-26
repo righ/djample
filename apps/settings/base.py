@@ -74,7 +74,7 @@ TEMPLATES = [
     #},
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(PROJ_DIR, 'templates/')],
+        # 'DIRS': [os.path.join(PROJ_DIR, 'templates/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -198,6 +198,7 @@ DJOSER = {
 }
 
 REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'apps.pagination.MyNumberPagination',
     'DEFAULT_FILTER_BACKENDS': [
         # 'django_filters.rest_framework.DjangoFilterBackend',
         'rest_framework.filters.SearchFilter',

@@ -63,6 +63,9 @@ class TokenView(APIView):
 
 class MyNumberPagination(pagination.PageNumberPagination):
     page_size = 1
+    page_size_query_param = 'page_size'
+    max_page_size = 50
+    last_page_strings = ['-1']
 
 
 class MyLOPagination(pagination.LimitOffsetPagination):
@@ -89,16 +92,21 @@ class UserNameAPI(APIView):
 
 
 from rest_framework import filters
+#from django_filters.rest_framework import DjangoFilterBackend
 
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    #filter_backends = (filters.SearchFilter,)
+    filter_backends = [
+        filters.SearchFilter,
+        filters.OrderingFilter,
+        # DjangoFilterBackend,
+    ]
     filter_fields = ('name',)
     search_fields = ('name', '^email')
-    ordering_fields = ('id', 'username')
+    ordering_fields = ('id', 'name')
 
     #pagination_class = MyNumberPagination
     #pagination_class = MyLOPagination

@@ -8,3 +8,4 @@ Jinja2==2.10
 djangorestframework==3.9.1
 djoser==1.4.0
 uWSGI==2.0.17.1
+PyYAML

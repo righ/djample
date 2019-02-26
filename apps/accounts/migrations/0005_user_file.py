@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='file',
-            field=models.FileField(null=True, upload_to='media/'),
+            field=models.FileField(null=True, upload_to='userfiles/'),
         ),
     ]
