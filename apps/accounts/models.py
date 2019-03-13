@@ -35,6 +35,7 @@ class Group(models.Model):
     name = models.CharField(max_length=40)
     users = models.ManyToManyField(User, related_name='belongs')
     owner = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='mygroups')
+    parent = models.ForeignKey('self', null=True, on_delete=models.SET_NULL, related_name='children')
 
     def __str__(self):
         return f'{self.name} (ID:{self.id})'
