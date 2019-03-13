@@ -1,6 +1,7 @@
 
 from rest_framework import serializers
 
+from accounts.models import User
 from .models import Status, Tag, Task, Time
 
 
@@ -35,13 +36,6 @@ class TagSerializer(serializers.ModelSerializer):
         }
 
 
-class TaskListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Task
-        fields = ('id', 'status', 'content', 'owner')
-        extra_kwargs = {}
-
-
 class TimeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Time
@@ -49,13 +43,58 @@ class TimeSerializer(serializers.ModelSerializer):
         extra_kwargs = {}
 
 
+class TimeListSerializer(serializers.ListSerializer):
+    child = TimeSerializer()
+
+    class Meta:
+        model = Time
+        fields = ('id', 'status', 'content', 'owner')
+        extra_kwargs = {}
+
+
 class TaskSerializer(serializers.ModelSerializer):
     # times = TimeSerializer(many=True)
+    tags = serializers.PrimaryKeyRelatedField(
+        queryset=Tag.objects.filter(),
+        many=True, required=False,
+    )
+    #owner = serializers.PrimaryKeyRelatedField(
+    #    queryset=User.objects.filter(),
+    #)
+
+    #tag_ids = serializers.PrimaryKeyRelatedField(
+    #    queryset=Tag.objects.filter(),
+    #    many=True, required=False,
+    #    source='tags'
+    #)
+    #owner_id = serializers.PrimaryKeyRelatedField(
+    #    queryset=User.objects.filter(),
+    #    source='owner'
+    #)
+
     class Meta:
         model = Task
-        fields = ('id', 'status', 'content', 'tags', 'created_at', 'updated_at')
+        fields = (
+            'id', 'status', 'content', 
+            'tags', 
+            #'tag_ids',
+            'owner', 
+            #'owner_id',
+            'created_at', 'updated_at')
         extra_kwargs = {
             'created_at': {'read_only': True},
             'updated_at': {'read_only': True},
             'times': {'write_only': True},
+            #'tags': {'read_only': True},
+            #'owner': {'read_only': True},
         }
+
+
+class TaskListSerializer(serializers.ListSerializer):
+    child = TaskSerializer()
+
+    class Meta:
+        model = Task
+        fields = ('id', 'status', 'content', 'owner')
+        extra_kwargs = {}
+
