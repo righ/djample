@@ -56,22 +56,27 @@ class TimeListSerializer(serializers.ListSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     # times = TimeSerializer(many=True)
 
-    # tags = TagSerializer(many=True, required=False)
+    #tags = TagSerializer(many=True, required=False)
+    tags = serializers.PrimaryKeyRelatedField(
+        queryset=Tag.objects.filter(),
+        many=True, required=False,
+    )
     owner = UserSerializer(required=False)
     owner_id = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.filter(),
         source='owner'
     )
+    status = StatusSerializer(required=False)
     status_id = serializers.PrimaryKeyRelatedField(
         queryset=Status.objects.filter(),
         source='status'
     )
-    status = StatusSerializer(required=False)
 
     class Meta:
         model = Task
         fields = (
             'id', 'content',
+            'tags',
             'owner', 
             'owner_id',
             'status',
@@ -82,6 +87,7 @@ class TaskSerializer(serializers.ModelSerializer):
             'updated_at': {'read_only': True},
             'times': {'write_only': True},
             'tags': {'read_only': True},
+            
             'tag_ids': {'write_only': True},
             'owner': {'read_only': True},
             'status': {'read_only': True},
