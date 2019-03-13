@@ -92,9 +92,3 @@ class TaskSerializer(serializers.ModelSerializer):
 
 class TaskListSerializer(serializers.ListSerializer):
     child = TaskSerializer()
-
-    class Meta:
-        model = Task
-        fields = ('id', 'status', 'content', 'owner')
-        extra_kwargs = {}
-
