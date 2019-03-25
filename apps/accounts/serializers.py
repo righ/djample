@@ -1,10 +1,12 @@
 from django.contrib.auth.hashers import make_password
-from rest_framework import serializers
+from rest_framework import serializers, validators
 
 from .models import User, Group
 
 
 class UserSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(validators=[validators.UniqueValidator(queryset=User.objects.all(), message='そのユーザは既にいます')])
+
     class Meta:
         model = User
         fields = ('id', 'name', 'email', 'file')
@@ -34,5 +36,4 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = ('id', 'name', 'users', 'owner', 'parent')
-        extra_kwargs = {
-        }
+        extra_kwargs = {}
