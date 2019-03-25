@@ -43,6 +43,11 @@ class TimeSerializer(serializers.ModelSerializer):
         fields = ('id', 'task', 'note', 'start', 'end')
         extra_kwargs = {}
 
+    def validate(self, data):
+        if data['start'] > data['end']:
+            raise serializers.ValidationError('開始、終了時間が不正です')
+        return data
+
 
 class TimeListSerializer(serializers.ListSerializer):
     child = TimeSerializer()
