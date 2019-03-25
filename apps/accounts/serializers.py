@@ -22,6 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
             group = Group.objects.filter(id=value.id).first()
             if group and group.owner_id != request.user.id:
                 raise serializers.ValidationError('このグループにユーザを追加する権限がありません')
+        return values
 
 
 class RecursiveField(serializers.Field):
