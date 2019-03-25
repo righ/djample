@@ -24,6 +24,9 @@ class RecursiveField(serializers.Field):
         self.parent.processed.add(obj.id)
         return parent.data
 
+    def to_internal_value(self, data):
+        return data
+
 
 class GroupSerializer(serializers.ModelSerializer):
     parent = RecursiveField()
@@ -37,3 +40,13 @@ class GroupSerializer(serializers.ModelSerializer):
         model = Group
         fields = ('id', 'name', 'users', 'owner', 'parent')
         extra_kwargs = {}
+
+    def validate_parent(self, value):
+        groups = set()
+        group = Group.objects.filter(id=value).first()
+        while group:
+            if group in groups:
+                raise serializers.ValidationError('循環してます')
+            groups.add(group)
+            group = Group.objects.filter(id=value).first()
+        return value
