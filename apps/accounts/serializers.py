@@ -9,11 +9,19 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'name', 'email', 'file')
+        fields = ('id', 'name', 'email', 'file', 'belongs')
         extra_kwargs = {
             'gravatar': {'read_only': True},
             'password': {'write_only': True},
         }
+
+    def validate_belongs(self, values):
+        print('values', values)
+        request = self.context['request']
+        for value in values:
+            group = Group.objects.filter(id=value.id).first()
+            if group and group.owner_id != request.user.id:
+                raise serializers.ValidationError('このグループにユーザを追加する権限がありません')
 
 
 class RecursiveField(serializers.Field):
