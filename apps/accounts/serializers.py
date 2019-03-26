@@ -51,11 +51,11 @@ class GroupSerializer(serializers.ModelSerializer):
         extra_kwargs = {}
 
     def validate_parent(self, value):
-        groups = set()
+        groups = set([self.instance])
         group = Group.objects.filter(id=value).first()
         while group:
             if group in groups:
                 raise serializers.ValidationError('循環してます')
             groups.add(group)
-            group = Group.objects.filter(id=value).first()
+            group = group.parent
         return value
