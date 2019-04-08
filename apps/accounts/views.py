@@ -14,7 +14,7 @@ from apps.parsers import YamlParser
 from .models import User, Group
 from .serializers import UserSerializer, GroupSerializer
 from .permissions import GroupMemberPermission
-#from .authentications import ExpirationTokenAuthentication
+from .authentication import ExpirationTokenAuthentication
 
 
 class EchoView(APIView):
@@ -25,12 +25,9 @@ class EchoView(APIView):
 
 
 class CheckView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    authentication_classes = (
-        #authentication.SessionAuthentication, 
-        authentication.BasicAuthentication, 
-        #authentication.TokenAuthentication,
-    )
+    # authentication_classes = [authentication.TokenAuthentication]
+    authentication_classes = [ExpirationTokenAuthentication]
+    
     def get(self, request, format=None):
         content = {'user': str(request.user), 'auth': str(request.auth)}
         return Response(content)
