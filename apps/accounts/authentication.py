@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from django.utils import timezone
+from django.core.cache import cache
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework import exceptions
@@ -21,10 +22,9 @@ class ExpirationTokenAuthentication(TokenAuthentication):
             raise exceptions.AuthenticationFailed("User is not active.")
 
         now = timezone.now()
-        if now - token.created > self.delta:
+        if now - (cache.get(key) or token.created) > self.delta:
             token.delete()
             raise exceptions.AuthenticationFailed("The Token is expired.")
         
-        token.created = now
-        token.save(update_fields=['created'])
+        cache.set(key, now, TIMEOUT_SECONDS)
         return (token.user, token)
