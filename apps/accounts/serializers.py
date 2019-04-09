@@ -9,14 +9,13 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'name', 'email', 'file', 'belongs')
+        fields = ('id', 'name', 'file', 'belongs')
         extra_kwargs = {
             'gravatar': {'read_only': True},
             'password': {'write_only': True},
         }
 
     def validate_belongs(self, values):
-        print('values', values)
         request = self.context['request']
         for value in values:
             group = Group.objects.filter(id=value.id).first()

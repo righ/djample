@@ -9,6 +9,10 @@ from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from rest_framework.authtoken.models import Token
 from rest_framework.parsers import JSONParser, MultiPartParser
+from rest_framework import filters
+
+import django_filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 from apps.parsers import YamlParser
 from .models import User, Group
@@ -88,8 +92,13 @@ class UserNameAPI(APIView):
         return Response(usernames)
 
 
-from rest_framework import filters
-#from django_filters.rest_framework import DjangoFilterBackend
+class GeneralUserFilterBackend(DjangoFilterBackend):
+    def get_filterset_kwargs(self, request, queryset, view):
+        kwargs = super().get_filterset_kwargs(request, queryset, view)
+        data = kwargs['data'].copy()
+        if not (request.user and request.user.is_staff):
+            data.pop('email', None)
+        return {**kwargs, 'data': data}
 
 
 class UserList(generics.ListAPIView):
@@ -97,11 +106,13 @@ class UserList(generics.ListAPIView):
     serializer_class = UserSerializer
 
     filter_backends = [
-        filters.SearchFilter,
+        #filters.SearchFilter,
+        #GeneralUserFilter,
+        GeneralUserFilterBackend,
         filters.OrderingFilter,
         # DjangoFilterBackend,
     ]
-    filter_fields = ('name',)
+    filter_fields = ('name', 'email')
     search_fields = ('name', '^email')
     ordering_fields = ('id', 'name')
 
