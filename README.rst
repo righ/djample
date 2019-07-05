@@ -1,6 +1,6 @@
-This is a django sample project, so it is named djample for short.
+This is a django sample project, so I named this project djample for short.
 
-Besides it is considered the following:
+It is considered the following:
 
 - Docker deployment.
 
