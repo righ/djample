@@ -9,6 +9,4 @@ RUN set -x; \
   apt-get install -y python3.6 python3-pip python3.6-venv &&\
   apt-get install -y postgresql-client &&\
   apt-get install -y libpcre3 libpcre3-dev &&\
-  ln -s /usr/bin/python3.6 /usr/bin/python &&\
-  /usr/bin/python3.6 -m venv venv/ &&\
-  chown www:www -R venv/
+  ln -s /usr/bin/python3.6 /usr/bin/python

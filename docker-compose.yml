@@ -9,17 +9,17 @@ services:
       LANG: en_US.UTF-8
       LC_ALL: C.UTF-8
       DJANGO_SETTINGS_MODULE: settings.local
+    user: www
     volumes:
       - ./:/home/www/djample/
-    working_dir: /home/www/
+    working_dir: /home/www/djample
     command: >
       bash -c "
-      bash djample/wait-for-postgres.sh db &&
-      hostname local-djample &&
+      bash wait-for-postgres.sh db &&
       python3.6 -m venv venv/ || true &&
-      venv/bin/pip install pip wheel -U && 
-      venv/bin/pip install -r djample/requirements/requirements-dev.txt || true &&
-      venv/bin/python djample/apps/manage.py migrate || true &&
+      venv/bin/pip install pip wheel -U &&
+      venv/bin/pip install -r requirements/requirements-dev.txt || true &&
+      venv/bin/python apps/manage.py migrate || true &&
       bash"
     ports:
       - "8000:8000"
